@@ -4,7 +4,7 @@ import { Container, Row, Col, Form, Button, Image, Alert } from 'react-bootstrap
 import Head from 'next/head'
 // import Image from 'next/image'
 
-export default function Login(props) {
+export default function Register(props) {
   const [warning, setwarning] = useState(false)
   const router = useRouter()
   const email = ''
@@ -17,7 +17,7 @@ export default function Login(props) {
   const registerUser = async event => {
     event.preventDefault()
     // alert(event.target.name.value)
-    const res = await fetch('/api/users/register', {
+    const res = await fetch('/api/liff-api/index.php/users/register', {
       body: JSON.stringify({
         name: event.target.name.value,
         email: event.target.email.value,

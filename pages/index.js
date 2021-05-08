@@ -1,4 +1,5 @@
-// import Head from 'next/head'
+import Head from 'next/head'
+import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import Login from './login'
@@ -11,7 +12,7 @@ export default function Home() {
   const [users, setUsers] = useState(false)
 
   const verify = async (uid) => {
-    const res = await fetch('/api/users/verify/'+uid, {
+    const res = await fetch('/api/liff-api/index.php/users/verify/'+uid, {
       headers: {
         'Content-Type': 'application/json'
       },
