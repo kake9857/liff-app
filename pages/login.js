@@ -17,7 +17,7 @@ export default function Login(props) {
   const registerUser = async event => {
     event.preventDefault()
     // alert(event.target.name.value)
-    const res = await fetch('/api/users/register', {
+    const res = await fetch('/api/liff-api/index.php/users/register', {
       body: JSON.stringify({
         name: event.target.name.value,
         email: event.target.email.value,
@@ -80,7 +80,7 @@ export default function Login(props) {
 
               <Form.Group>
                 <Form.Label>Email address</Form.Label>
-                <Form.Control id="email" name="email" type="email" defaultValue={email} placeholder="Enter email" required />
+                <Form.Control id="email" name="email" type="email" value={props.email} defaultValue={email} placeholder="Enter email" required />
               </Form.Group>
 
               <Form.Group>

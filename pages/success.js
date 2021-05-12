@@ -1,8 +1,13 @@
 import Head from 'next/head'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import { CheckCircleFill } from 'react-bootstrap-icons'
-export default function Success () {
 
+import liff from '@line/liff'
+
+export default function Success () {
+  const handleClick = () => {
+    liff.closeWindow()
+  }
   return (
     <section>
       <Head>
@@ -18,7 +23,7 @@ export default function Success () {
         </Row>
         <Row>
           <Col span={12}>
-            <Button block variant="success" type="button">
+          <Button block variant="success" type="button" onClick={handleClick}>
               Close
             </Button>
           </Col>

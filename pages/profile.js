@@ -1,16 +1,24 @@
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
 // import Image from 'next/image'
-import { Container, Row, Col, ButtonGroup, Button, Image, Form, Alert } from 'react-bootstrap';
+import { Container, Row, Col, ButtonGroup, Button, Image, Form, Alert, Modal } from 'react-bootstrap';
 import { PersonPlusFill, Award, UpcScan } from 'react-bootstrap-icons';
+
+import Reward from './reward'
+import History from './history'
 
 // import liff from '@line/liff'
 
 export default function Register(props) {
+  const [show, setShow] = useState(false);
+  const [info, setInfo] = useState('');
   const [code, setCode] = useState()
   const [friendFlag, setFriendFlag] = useState()
   const [os, setOs] = useState('ios')
   const [page, setPage] = useState('reward')
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(async () => {
     // const liff = (await import('@line/liff')).default
@@ -43,6 +51,25 @@ export default function Register(props) {
   const changePage = (page) => {
     setPage(page)
     console.log('page', page)
+  }
+
+  const collect = async () => {
+    // setInfo(code)
+    setInfo('loading...')
+    handleShow()
+    // console.log(props.users.users_id)
+    // handleShow()
+    // alert(point)
+    const res = await fetch('/api/liff-api/index.php/reward/collect_point/'+props.users.users_id+'/5/'+code, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    })
+
+    const result = await res.json()
+    setInfo(result.message)
+    
   }
 
   return (
@@ -96,7 +123,7 @@ export default function Register(props) {
 
         {page === 'reward' && <Row className="justify-content-md-center mt-2">
           <Col xs={12} className="text-center">
-            <h5>Collect Point</h5>
+            <Reward users={props.users} />
           </Col>
         </Row>}
 
@@ -106,7 +133,7 @@ export default function Register(props) {
           </Col>
           <Col xs={os === "ios" ? 12 : 8} className="text-center">
             <Form.Group>
-              <Form.Control id="code" name="code" defaultValue={code} type="text" placeholder="Code" className="w-100" required />
+              <Form.Control id="code" name="code" defaultValue={code} type="text" placeholder="Code" className="w-100" onChange={e => { setCode(e.currentTarget.value); }} required />
             </Form.Group>
           </Col>
           {os === "android" && <Col xs={4} className="text-center">
@@ -115,7 +142,7 @@ export default function Register(props) {
             </Button>
           </Col>}
           <Col xs={12} className="text-center">
-            <Button variant="primary" className="w-100">
+            <Button variant="primary" onClick={() => collect()} className="w-100">
               Save
             </Button>
           </Col>
@@ -123,7 +150,7 @@ export default function Register(props) {
 
         {page === 'history' && <Row className="justify-content-md-center mt-2">
           <Col xs={12} className="text-center">
-            <h5>History</h5>
+            <History users={props.users} />
           </Col>
         </Row>}
       </Container>
@@ -134,6 +161,23 @@ export default function Register(props) {
           padding: 15px;
         }
       `}</style>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Information</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{info}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </section>
   )
 }

@@ -11,7 +11,7 @@ export default function Home() {
   const [users, setUsers] = useState(false)
 
   const verify = async (uid) => {
-    const res = await fetch('/api/users/verify/'+uid, {
+    const res = await fetch('/api/liff-api/index.php/users/verify/'+uid, {
       headers: {
         'Content-Type': 'application/json'
       },
