@@ -4,7 +4,7 @@ import { Container, Row, Col, Form, Button, Image, Alert } from 'react-bootstrap
 import Head from 'next/head'
 // import Image from 'next/image'
 
-export default function Login(props) {
+export default function Register(props) {
   const [warning, setwarning] = useState(false)
   const router = useRouter()
   const email = ''
